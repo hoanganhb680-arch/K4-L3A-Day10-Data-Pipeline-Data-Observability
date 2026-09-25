@@ -1,0 +1,5 @@
+Title: Mitigating Ghost Vectors in Dense Retrieval via Idempotent Indexing
+Authors: Duc Vu, Thao Dang
+Published: 2026-04-18T00:00:00
+Categories: Databases, Information Systems
+Summary: Soft-deletions in vector databases leave orphaned embeddings that lead to hallucinations. This paper designs an idempotent index synchronization protocol that guarantees complete purges of outdated vector artifacts.

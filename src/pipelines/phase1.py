@@ -4,7 +4,7 @@ import pandas as pd
 
 from core.config import load_settings
 from core.utils import now_utc
-from ingestion.crossref import fetch_source_records, load_raw_records, save_raw_records
+from ingestion.crossref import fetch_source_records, load_raw_records
 from ingestion.cleaning import build_clean_dataframe
 from retrieval.index import LocalEmbeddingIndex
 from evaluation.testset import build_test_set
@@ -20,7 +20,6 @@ def main() -> None:
         raw_records = load_raw_records(settings.paths.raw_records_json)
     else:
         raw_records = fetch_source_records(settings)
-        save_raw_records(raw_records, settings.paths.raw_records_json)
         
     df = build_clean_dataframe(raw_records, now_utc())
     
@@ -37,8 +36,8 @@ def main() -> None:
         settings=settings,
         index=index,
         test_set_path=settings.paths.eval_testset,
-        metrics_output_path=settings.paths.eval_metrics,
-        answers_output_path=settings.paths.eval_answers,
+        metrics_output_path=settings.paths.baseline_metrics,
+        answers_output_path=settings.paths.baseline_answers,
     )
     
     quality = run_data_quality_checks(df, settings, "baseline")
@@ -49,9 +48,9 @@ def main() -> None:
         "clean_count": len(df),
     }
     
-    settings.paths.phase1_report.parent.mkdir(parents=True, exist_ok=True)
+    settings.paths.baseline_report.parent.mkdir(parents=True, exist_ok=True)
     generate_phase1_report(
-        report_path=settings.paths.phase1_report,
+        report_path=settings.paths.baseline_report,
         source_summary=source_summary,
         metrics=bundle.summary,
         quality=quality,
