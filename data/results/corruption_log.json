@@ -1,0 +1,79 @@
+{
+  "input_rows": 24,
+  "scenarios": [
+    {
+      "name": "stale_date",
+      "description": "Shifted published dates back 365 days for selected newest rows.",
+      "affected_rows": 5
+    },
+    {
+      "name": "blank_summary",
+      "description": "Cleared summary and rebuilt embedding text.",
+      "affected_rows": 4
+    },
+    {
+      "name": "inject_noise",
+      "description": "Injected a garbage token into summary text.",
+      "affected_rows": 5
+    },
+    {
+      "name": "truncate_title",
+      "description": "Truncated titles to below the required length.",
+      "affected_rows": 4
+    },
+    {
+      "name": "duplicate_rows",
+      "description": "Duplicated selected rows.",
+      "affected_rows": 5
+    },
+    {
+      "name": "drop_latest",
+      "description": "Dropped the newest records to simulate stale serving data.",
+      "affected_rows": 6
+    }
+  ],
+  "indices": {
+    "stale_date": [
+      23,
+      22,
+      21,
+      20,
+      18
+    ],
+    "blank_summary": [
+      1,
+      17,
+      13,
+      5
+    ],
+    "inject_noise": [
+      11,
+      5,
+      15,
+      4,
+      8
+    ],
+    "truncate_title": [
+      1,
+      5,
+      11,
+      13
+    ],
+    "duplicate_rows": [
+      14,
+      11,
+      8,
+      10,
+      23
+    ],
+    "drop_latest": [
+      19,
+      17,
+      16,
+      15,
+      13,
+      14
+    ]
+  },
+  "output_rows": 23
+}

@@ -1,0 +1,103 @@
+[
+  {
+    "id": "q1",
+    "type": "summary",
+    "question_type": "summary",
+    "question": "What is the main idea of the paper 'Agentic Retrieval-Augmented Generation for Knowledge-Intensive Tasks'?",
+    "ground_truth": "Retrieval-Augmented Generation significantly improves large language model accuracy by grounding responses in retrieved passages, using agentic multi-hop reasoning and routing across heterogeneous vector indices.",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671801"
+    ]
+  },
+  {
+    "id": "q2",
+    "type": "authors",
+    "question_type": "authors",
+    "question": "Who authored the research on data observability and quality gates for production RAG systems?",
+    "ground_truth": "Anh Tran, Quoc Pham",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671802"
+    ]
+  },
+  {
+    "id": "q3",
+    "type": "date",
+    "question_type": "date",
+    "question": "When was 'Mitigating Ghost Vectors in Dense Retrieval via Idempotent Indexing' published?",
+    "ground_truth": "2026-04-18",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671803"
+    ]
+  },
+  {
+    "id": "q4",
+    "type": "category",
+    "question_type": "category",
+    "question": "Which field does the work on freshness SLAs for real-time LLM knowledge augmentation belong to?",
+    "ground_truth": "Data Management, Artificial Intelligence",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671804"
+    ]
+  },
+  {
+    "id": "q5",
+    "type": "multi_hop",
+    "question_type": "multi_hop",
+    "question": "How do synthetic corruption testing and data quality profiling work together to harden retrieval systems?",
+    "ground_truth": "Synthetic corruption testing stress-tests vector search robustness, while automated data quality profiling with Great Expectations in CI/CD catches malformed data, together hardening retrieval pipelines.",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671807",
+      "10.1145/3637528.3671810"
+    ]
+  },
+  {
+    "id": "q6",
+    "type": "summary",
+    "question_type": "summary",
+    "question": "What is the main idea of the paper 'Evaluating Retrieval Precision with Token F1 and LLM Judges'?",
+    "ground_truth": "Evaluating open-domain QA requires robust metrics.",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671805"
+    ]
+  },
+  {
+    "id": "q7",
+    "type": "authors",
+    "question_type": "authors",
+    "question": "Who authored the paper 'Chunking Strategies for Technical Documentation Retrieval'?",
+    "ground_truth": "Long Trinh, Ha Chu",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671809"
+    ]
+  },
+  {
+    "id": "q8",
+    "type": "date",
+    "question_type": "date",
+    "question": "When was the paper 'Semantic Layer Integration for Agentic Text-to-SQL Pipelines' published?",
+    "ground_truth": "2026-05-02",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671806"
+    ]
+  },
+  {
+    "id": "q9",
+    "type": "category",
+    "question_type": "category",
+    "question": "What categories does the paper 'Automated Data Quality Profiling with Great Expectations in CI/CD' belong to?",
+    "ground_truth": "Data Quality, DevOps",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671810"
+    ]
+  },
+  {
+    "id": "q10",
+    "type": "summary",
+    "question_type": "summary",
+    "question": "What is the main idea of the paper 'Multi-Agent Consensus for High-Stakes Fact Verification'?",
+    "ground_truth": "A single LLM is susceptible to confirmation bias when evaluating retrieved evidence.",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671808"
+    ]
+  }
+]

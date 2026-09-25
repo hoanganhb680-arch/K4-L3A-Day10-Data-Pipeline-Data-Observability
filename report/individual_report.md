@@ -1,164 +1,146 @@
-# Member Role Report — Day 10: Data Pipeline & Data Observability
-
-> Mỗi thành viên trong nhóm tự hoàn thành mẫu này để báo cáo đúng vai trò, phần việc và mức hiểu của mình. Không sao chép nguyên báo cáo chung hoặc báo cáo của thành viên khác. Thay nội dung trong dấu `[ ]` và xóa các dòng hướng dẫn không cần thiết trước khi nộp.
+# Member Role Report - Day 10: Data Pipeline & Data Observability
 
 ## 1. Thông tin cá nhân
 
-| Thông tin         | Nội dung                  |
-| ------------------ | -------------------------- |
-| Họ và tên       | [Họ và tên]             |
-| MSSV               | [MSSV]                     |
-| Khóa/Lớp         | [K3 hoặc K4]              |
-| Tên nhóm         | [Tên hoặc mã nhóm]     |
-| Vai trò chính    | [Vai trò]                 |
-| Repository         | [Đường dẫn repository] |
-| Ngày hoàn thành | [YYYY-MM-DD]               |
+| Thông tin | Nội dung |
+| --- | --- |
+| Họ và tên | Bùi Hoàng Anh |
+| MSSV | 2A202602697 |
+| Khóa/Lớp | K4 |
+| Tên nhóm | Friday-25th |
+| Vai trò chính | Leader |
+| Repository | https://github.com/hoanganhb680-arch/K4-L3A-Day10-Data-Pipeline-Data-Observability/tree/main |
+| Ngày hoàn thành | 2026-09-25 |
 
 ## 2. Vai trò và phạm vi công việc
 
 ### Phần việc sở hữu
 
-| Module/deliverable | File/hàm phụ trách | Input nhận vào | Output bàn giao  | Trạng thái                                 |
-| ------------------ | --------------------- | ---------------- | ----------------- | -------------------------------------------- |
-| [Phần việc]      | [File/hàm]           | [Input]          | [Output/artifact] | [Hoàn thành/Một phần/Chưa hoàn thành] |
-| [Phần việc]      | [File/hàm]           | [Input]          | [Output/artifact] | [Hoàn thành/Một phần/Chưa hoàn thành] |
+Là leader của nhóm Friday-25th, tôi chịu trách nhiệm chính cho việc tích hợp toàn bộ pipeline và bảo đảm các pha chạy end-to-end.
 
-Chỉ nhận ownership cho phần bạn trực tiếp thực hiện. Liên hệ rõ phần việc của bạn với đầu vào, đầu ra và các thành viên phụ thuộc vào phần đó.
+| Module/deliverable | File/hàm phụ trách | Input nhận vào | Output bàn giao | Trạng thái |
+| --- | --- | --- | --- | --- |
+| Cấu hình chung | `src/core/config.py` | `.env`, cấu hình project | `Settings`, các đường dẫn artifact | Hoàn thành |
+| Baseline orchestration | `src/pipelines/phase1.py` | Raw records, clean dataset, embedding | `baseline_metrics.json`, `phase1_report.md` | Hoàn thành |
+| Corruption/repair orchestration | `src/pipelines/corruption_flow.py` | Clean dataset, raw records | `corrupted_metrics.json`, `repaired_metrics.json`, `corruption_report.md` | Hoàn thành |
+| Reporting | `src/observability/reporting.py` | Metrics, quality, freshness | Markdown report cho baseline và corruption | Hoàn thành |
 
 ### Việc hỗ trợ ngoài phạm vi chính
 
-| Hoạt động                         | Thành viên/module được hỗ trợ | Kết quả                    |
-| ------------------------------------ | ------------------------------------ | ---------------------------- |
-| [Debug/tích hợp/tài liệu] | [Tên hoặc module] | [Kết quả và bằng chứng] |
+| Hoạt động | Thành viên/module được hỗ trợ | Kết quả |
+| --- | --- | --- |
+| Kiểm tra module contract | `ingestion`, `retrieval`, `evaluation`, `observability` | Toàn bộ pipeline chạy exit code 0 |
+| Khắc phục import phụ thuộc | `retrieval`, `evaluation` | Pipeline không bị chặn bởi SDK LLM chưa cài |
 
 ## 3. Kết quả theo vai trò
 
-| Nhiệm vụ đã thực hiện | File/hàm/artifact liên quan | Kết quả bàn giao       | Cách xác minh         |
-| --------------------------- | ----------------------------- | ------------------------- | ----------------------- |
-| [Mô tả cụ thể] | [Đường dẫn file] | [Artifact/metrics/report] | [Lệnh/artifact] |
-| [Mô tả cụ thể] | [Đường dẫn file] | [Artifact/metrics/report] | [Lệnh/artifact] |
+| Nhiệm vụ đã thực hiện | File/hàm/artifact liên quan | Kết quả bàn giao | Cách xác minh |
+| --- | --- | --- | --- |
+| Chạy baseline | `script/run_phase1.py` | `baseline_metrics.json` | `retrieval_hit_rate = 1.0` |
+| Chạy corruption/repair | `script/run_corruption_flow.py` | Metrics 3 trạng thái | Bảng `Corrupted [0.8], Repaired [1.0]` |
+| Kiểm định dữ liệu | `src/observability/quality.py` | `quality/freshness` | GX `success = true` ở baseline |
+| Tổng hợp báo cáo | `src/observability/reporting.py` | `data/reports/*.md` | Exit code 0 |
 
-Nêu một output cụ thể mà phần việc của bạn tạo ra hoặc giúp xác minh:
-
-[Mô tả artifact, metric, report hoặc kết quả tích hợp.]
+Ví dụ output do phần việc của tôi kết nối: `data/reports/corruption_report.md` thể hiện Hit Rate giảm từ `1.000` xuống `0.800` khi dữ liệu bị lỗi và quay lại `1.000` sau repair.
 
 ## 4. Giải thích phần kỹ thuật đã thực hiện
 
 ### Vấn đề cần giải quyết
 
-[Phần của bạn giải quyết vấn đề gì trong pipeline?]
+Pipeline phải ghép nhiều module khác nhau: ingestion, cleaning, embedding, evaluation, quality/freshness và reporting, đồng thời phải chạy được cả khi chưa có API key hoặc SDK LLM.
 
 ### Cách triển khai
 
-[Mô tả thuật toán, quy tắc dữ liệu, orchestration hoặc quyết định chính. Không chỉ chép lại tên hàm.]
+Tôi dùng cùng một `Settings` cho toàn bộ các khối, giữ contract qua `core/utils.py` và `core/config.py`. Phase 1 đọc bản ghi raw, tạo clean dataframe, build Chroma index, chạy evaluation trên bộ 10 câu, kiểm GX rồi ghi report. Corruption flow giữ test set cố định để so sánh công bằng giữa baseline, corrupted và repaired.
 
 ### Input, output và contract
 
-| Thành phần                   | Mô tả                                     |
-| ------------------------------ | ------------------------------------------- |
-| Input                          | [Schema, artifact hoặc tham số]           |
-| Output                         | [Schema, artifact hoặc giá trị trả về] |
-| Module phụ thuộc             | [Module/file liên quan]                    |
-| Module sử dụng output        | [Module/file liên quan]                    |
-| Điều kiện lỗi cần xử lý | [Trường hợp thực tế]                   |
+| Thành phần | Mô tả |
+| --- | --- |
+| Input | `crossref_records.json`, `papers_clean.csv`, ChromaDB |
+| Output | `baseline_metrics.json`, `corrupted_metrics.json`, `repaired_metrics.json`, Markdown report |
+| Module phụ thuộc | `ingestion`, `retrieval`, `evaluation`, `observability` |
+| Module sử dụng output | `reporting.py` |
+| Điều kiện lỗi cần xử lý | Missing GUI/LLM SDK cũng phải có fallback judge |
 
 ### Cách xác minh
 
-```bash
-[Ghi lệnh thực tế đã chạy]
+```powershell
+.\.venv\Scripts\python.exe script\run_phase1.py
+.\.venv\Scripts\python.exe script\run_corruption_flow.py
 ```
 
-- **Kết quả mong đợi:** [Mô tả.]
-- **Kết quả thực tế:** [Mô tả.]
-- **Artifact/log:** [Đường dẫn; không chứa secret.]
+- **Kết quả mong đợi:** Câu lệnh chạy không lỗi, có đầy đủ metric ba trạng thái.
+- **Kết quả thực tế:** Cả hai lệnh exit code 0; hit rate baseline/repaired `1.0`, corrupted `0.8`.
+- **Artifact/log:** `data/results/*.json`, `data/reports/*.md`.
 
 ## 5. Một quyết định kỹ thuật quan trọng
 
-- **Bối cảnh:** [Vấn đề hoặc lựa chọn cần quyết định.]
-- **Các phương án đã cân nhắc:** [Ít nhất hai phương án.]
-- **Phương án đã chọn:** [Lựa chọn.]
-- **Lý do:** [Trade-off về correctness, data quality, reproducibility, cost hoặc độ phức tạp.]
-- **Bằng chứng quyết định phù hợp:** [Metric, artifact hoặc kết quả thử nghiệm.]
+- **Bối cảnh:** Import `retrieval/__init__.py` ban đầu kéo theo `langchain_*` SDK, làm pipeline hỏng khi chưa cài provider.
+- **Các phương án đã cân nhắc:** Cài hết SDK LLM, hoặc chuyển import sang lazy.
+- **Phương án đã chọn:** Chuyển provider SDK thành lazy import và cho LLM judge dùng fallback token F1.
+- **Lý do:** Pipeline vẫn chạy end-to-end để sinh đủ artifact khi chưa có API key, đồng thời giữ khả năng dùng provider thật khi cấu hình sau.
+- **Bằng chứng quyết định phù hợp:** `run_phase1.py` và `run_corruption_flow.py` đều exit code 0, sinh đủ metrics.
 
 ## 6. Một lỗi hoặc blocker đã xử lý
 
-- **Triệu chứng/lỗi nguyên văn:** [Che toàn bộ secret trước khi ghi.]
-- **Lệnh hoặc bước tái hiện:** [Lệnh/bước.]
-- **Nguyên nhân gốc:** [Root cause, không chỉ mô tả triệu chứng.]
-- **Cách xử lý:** [Thay đổi cụ thể.]
-- **Cách xác minh sau khi sửa:** [Lệnh và kết quả.]
-- **Điều học được:** [Bài học kỹ thuật.]
-
-Nếu chưa xử lý xong:
-
-- **Phạm vi bị ảnh hưởng:** [Module/artifact.]
-- **Những gì đã loại trừ:** [Các giả thuyết đã kiểm tra.]
-- **Bước tiếp theo:** [Hành động có thể kiểm chứng.]
+- **Triệu chứng:** `ModuleNotFoundError: No module named 'langchain_anthropic'`.
+- **Lệnh hoặc bước tái hiện:** `python script/run_phase1.py`.
+- **Nguyên nhân gốc:** `build_llm` import SDK ở top-level, package chưa cài.
+- **Cách xử lý:** Chuyển import vào từng nhánh provider, bổ sung fallback cho LLM judge.
+- **Cách xác minh sau khi sửa:** Chạy lại `run_phase1.py`, exit code 0 và có `baseline_metrics.json`.
+- **Điều học được:** Import module nặng nên để lazy để không biến dependency tùy chọn thành blocker.
 
 ## 7. Hiểu biết về luồng end-to-end
 
-Giải thích ngắn gọn bằng lời của bạn:
-
-1. Dữ liệu đi từ Crossref đến vector index như thế nào?
-2. Evaluation set và ground-truth document IDs dùng để đo retrieval/answer quality ra sao?
-3. Quality checks khác freshness monitoring ở điểm nào trong bài lab?
-4. Vì sao phải dùng cùng test set cho baseline, corrupted và repaired?
-5. Repair được xem là thành công dựa trên artifact và metric nào?
-
-**Câu trả lời:**
-
-[Viết câu trả lời tại đây.]
+1. Dữ liệu đi từ Crossref API, được lưu raw, làm sạch, tạo `text_for_embedding`, encode bằng `all-MiniLM-L6-v2` rồi nạp vào ChromaDB.
+2. Evaluation set gồm câu hỏi, ground truth và `ground_truth_doc_ids`; retrieval kiểm tra doc đúng có nằm trong top-k, còn token F1 kiểm tra độ tương đồng câu trả lời.
+3. Quality checks đánh giá schema, null, unique, độ dài summary; freshness monitoring đo tỷ lệ bài quá 180 ngày.
+4. Dùng cùng test set để baseline, corrupted và repaired khác biệt chỉ do trạng thái dữ liệu, phép so sánh mới có ý nghĩa.
+5. Repair thành công khi đọc lại từ raw và cả quality/freshness lẫn metrics quay về giá trị baseline.
 
 ## 8. Phân tích kết quả
 
 ### Metrics chính
 
-| Metric/signal          | Baseline | Corrupted | Repaired | Nhận xét của cá nhân |
-| ---------------------- | -------: | --------: | -------: | ------------------------- |
-| `retrieval_hit_rate` |      [ ] |       [ ] |      [ ] | [Nhận xét]              |
-| `mean_token_f1`      |      [ ] |       [ ] |      [ ] | [Nhận xét]              |
-| `judge_accuracy`     |      [ ] |       [ ] |      [ ] | [Nhận xét]              |
-| `mean_judge_score`   |      [ ] |       [ ] |      [ ] | [Nhận xét]              |
-| Quality checks         |      [ ] |       [ ] |      [ ] | [Nhận xét]              |
-| Freshness status       |      [ ] |       [ ] |      [ ] | [Nhận xét]              |
+| Metric/signal | Baseline | Corrupted | Repaired | Nhận xét của cá nhân |
+| --- | ---: | ---: | ---: | --- |
+| `retrieval_hit_rate` | 1.000 | 0.800 | 1.000 | Đúng kỳ vọng: corruption làm sót tài liệu. |
+| `mean_token_f1` | 0.771 | 0.559 | 0.771 | Answer quality giảm rõ rệt rồi phục hồi đầy đủ. |
+| `judge_accuracy` | 0.800 | 0.600 | 0.800 | Judge fallback cho thấy mức suy giảm. |
+| `mean_judge_score` | 4.000 | 3.200 | 4.000 | Đồng bộ với accuracy. |
+| Quality checks | Pass | Fail | Pass | GX duy nhất metric cho corrupted. |
+| Freshness status | Fresh | Not fresh | Fresh | Stale date làm trạng thái đổi rõ. |
 
 ### Kết luận từ số liệu
 
-Hoàn thành hai chuỗi nguyên nhân–bằng chứng sau:
+1. Data corruption → quality/freshness xuống → Hit Rate từ `1.000` còn `0.800`, F1 từ `0.771` còn `0.559`.
+2. Repair từ raw → quality/freshness phục hồi → mọi metric trở về baseline.
 
-1. [Data corruption] → [quality/freshness signal thay đổi] → [agent metric thay đổi].
-2. [Repair action] → [quality/freshness signal phục hồi] → [agent metric phục hồi hoặc chưa phục hồi].
+Corruption ảnh hưởng rõ nhất là `stale_date` hoặc `duplicate_rows`, vì chúng làm freshness và uniqueness cùng lúc, tác động trực tiếp đến retrieval và answer.
 
-Corruption nào ảnh hưởng rõ nhất và vì sao?
-
-[Phân tích dựa trên số liệu.]
-
-Kết quả nào khác với kỳ vọng ban đầu?
-
-[Nêu kết quả, giả thuyết và cách đã kiểm tra.]
+Kết quả phục hồi hoàn toàn về baseline cũng là điều tôi muốn xác minh kỹ: repaired metrics phải bằng baseline chứ không chỉ tăng hơn corrupted.
 
 ## 9. Điều học được và hướng cải thiện
 
 ### Ba điều quan trọng nhất
 
-1. [Điều học được về data pipeline.]
-2. [Điều học được về data quality/observability.]
-3. [Điều học được về ảnh hưởng của data đến RAG agent.]
+1. Hiểu được từng mắt xích dữ liệu phải khớp schema trước khi ghép pipeline.
+2. Quality gate và freshness giúp phát hiện silent failure trước khi RAG trả lời sai.
+3. Data corruption ảnh hưởng rõ đến vector retrieval và chất lượng câu trả lời.
 
 ### Nếu có thêm thời gian
 
-[Nêu một cải thiện cụ thể, lý do và cách đo cải thiện đó.]
+Tôi sẽ cấu hình thêm API key và bật `RUN_RAGAS=1` để bổ sung metric LLM-based, đồng thời viết pytest cho các module ingestion, cleaning, quality và retrieval nhằm tăng độ tin cậy khi refactor.
 
 ## 10. Cam kết của thành viên
 
-Đánh dấu sau khi tự kiểm tra:
+- [x] Nội dung báo cáo phản ánh đúng phần việc và mức hiểu của tôi.
+- [x] Tôi có thể giải thích luồng end-to-end, không chỉ module mình phụ trách.
+- [x] Mọi kết luận về kết quả đều có artifact hoặc metric để đối chiếu.
+- [x] Tôi không ghi "đã chạy thành công" cho phần chưa được kiểm chứng.
+- [x] Báo cáo không chứa `.env`, API key, token hoặc secret.
+- [x] Báo cáo này không phải bản sao nguyên văn của báo cáo nhóm hoặc báo cáo thành viên khác.
 
-- [ ] Nội dung báo cáo phản ánh đúng phần việc và mức hiểu của tôi.
-- [ ] Tôi có thể giải thích luồng end-to-end, không chỉ module mình phụ trách.
-- [ ] Mọi kết luận về kết quả đều có artifact hoặc metric để đối chiếu.
-- [ ] Tôi không ghi “đã chạy thành công” cho phần chưa được kiểm chứng.
-- [ ] Báo cáo không chứa `.env`, API key, token hoặc secret.
-- [ ] Báo cáo này không phải bản sao nguyên văn của báo cáo nhóm hoặc báo cáo thành viên khác.
-
-**Họ và tên:** [Họ và tên]
-**Ngày xác nhận:** [YYYY-MM-DD]
+**Họ và tên:** Bùi Hoàng Anh
+**Ngày xác nhận:** 2026-09-25
