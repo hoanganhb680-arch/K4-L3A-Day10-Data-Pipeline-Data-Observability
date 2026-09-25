@@ -246,3 +246,30 @@ GOOGLE_API_KEY=your_gemini_api_key_here
   > GitHub chỉ ghi nhận đóng góp khi commit được push trực tiếp vào **nhánh mặc định (`main`)**.  
   > Trước khi nộp bài, mở trình duyệt vào repo nhóm, chọn tab **Insights > Contributors**. Bắt buộc mọi thành viên trong nhóm đều phải xuất hiện trên biểu đồ commit thì mới được tính điểm chuyên cần nhóm!
 - [ ] **Nộp bài lên VLearn LMS:** Mỗi thành viên copy đường link repository GitHub của nhóm và nộp lên cổng LMS trước khi đồng hồ đếm ngược kết thúc 240 phút!
+
+
+---
+
+## Group Submission
+
+Team: Friday-25th
+
+Members:
+- Bùi Hoàng Anh — 2A202602697
+- Tạ Văn Tuấn — 2A202602806
+- Nguyễn Mai Hoàng Thiện — 2A202602912
+
+Run:
+
+```bash
+uv run python script/run_phase1.py
+uv run python script/run_corruption_flow.py
+```
+
+Tests:
+
+```bash
+uv run python -m unittest discover -s tests -v
+```
+
+Recommendation: rename repo to `K4-L3-DAY10-Friday-25th-DataPipeline` before LMS submission.

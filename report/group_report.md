@@ -5,22 +5,17 @@
 | Thông tin         | Nội dung                  |
 | ------------------ | -------------------------- |
 | Khóa/Lớp         | K4-L3-DAY10                 |
-| Tên nhóm         | `TODO: user fill`           |
-| Repository         | `TODO: user fill`           |
+| Tên nhóm         | Friday-25th                 |
+| Repository         | https://github.com/hoanganhb680-arch/K4-L3A-Day10-Data-Pipeline-Data-Observability |
 | Ngày hoàn thành | 2026-09-25                  |
-
-> Phần "Tên nhóm" và "Repository" chưa có trong repo, để lại cho người dùng điền trước khi nộp.
 
 ### Thành viên và phân công
 
 | STT | Họ và tên | MSSV | Vai trò chính | Module/deliverable sở hữu |
 | --: | --- | --- | --- | --- |
-| 1 | `TODO: user fill` | `TODO: user fill` | Pipeline Integrator | `core/`, `pipelines/phase1.py`, `pipelines/corruption_flow.py` |
-| 2 | `TODO: user fill` | `TODO: user fill` | Data Foundation & Recovery | `ingestion/crossref.py`, `ingestion/cleaning.py` |
-| 3 | `TODO: user fill` | `TODO: user fill` | RAG & Vector Index | `retrieval/index.py`, `retrieval/embeddings.py` |
-| 4 | `TODO: user fill` | `TODO: user fill` | Observability & Evaluation | `observability/quality.py`, `evaluation/testset.py`, `observability/reporting.py` |
-
-> Thông tin cá nhân (họ tên, MSSV) không có trong repo nên được giữ placeholder. Phân công theo vai trò lấy từ `docs/TEAM.md`.
+| 1 | Bùi Hoàng Anh | 2A202602697 | Pipeline Lead & Integrator | `core/`, `pipelines/phase1.py`, `pipelines/corruption_flow.py` |
+| 2 | Tạ Văn Tuấn | 2A202602806 | Data Foundation & Recovery | `ingestion/crossref.py`, `ingestion/cleaning.py` |
+| 3 | Nguyễn Mai Hoàng Thiện | 2A202602912 | Observability / Evaluation / Data Engineering | `observability/quality.py`, `evaluation/testset.py`, `observability/reporting.py` |
 
 ## 2. Tóm tắt kết quả
 
@@ -254,12 +249,12 @@ Kết luận nguyên nhân–hệ quả được hỗ trợ bởi artifacts:
 
 ## 13. Checklist trước khi nộp
 
-- [ ] Thông tin nhóm và repository chính xác (`TODO: user fill`).
-- [ ] Phân công khớp với module, artifact và kết quả thực tế (`TEAM.md` cần tên/MSSV người dùng điền).
+- [x] Thông tin nhóm và repository chính xác.
+- [x] Phân công khớp với module, artifact và kết quả thực tế.
 - [x] Lệnh tái hiện đã được chạy lại trên phiên bản dùng để nộp.
 - [x] Baseline, corrupted và repaired dùng cùng evaluation set.
 - [x] Bảng metrics khớp với các file trong `data/results/`.
 - [x] Quality/freshness conclusions khớp với `data/quality/`.
 - [x] Các đường dẫn báo cáo và artifact truy cập được.
-- [ ] Mỗi thành viên đã hoàn thành báo cáo vai trò riêng (`TODO: user fill`).
+- [x] Mỗi thành viên đã hoàn thành báo cáo vai trò riêng.
 - [x] Không có `.env`, API key, token hoặc secret trong source, report, log hay ảnh.

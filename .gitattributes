@@ -1,0 +1,4 @@
+# Treat ChromaDB binary assets as binary to avoid CRLF/normalization corruption.
+data/chroma/*.bin -text
+data/chroma/**/*.bin -text
+data/chroma/chroma.sqlite3 -text
