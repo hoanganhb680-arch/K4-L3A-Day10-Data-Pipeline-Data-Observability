@@ -1,0 +1,5 @@
+Title: Chunking Strategies for Technical Documentation Retrieval
+Authors: Long Trinh, Ha Chu
+Published: 2026-04-30T00:00:00
+Categories: Information Retrieval, Natural Language Processing
+Summary: Hierarchical and semantic boundary chunking preserves code block contexts and markdown headings. Our benchmark demonstrates superior top-1 recall compared to fixed character length sliding windows.ÿÿÿÿÿÿÿ

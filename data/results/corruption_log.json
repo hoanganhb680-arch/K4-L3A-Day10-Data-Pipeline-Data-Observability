@@ -1,0 +1,7 @@
+[
+  "Dropped 2 latest records: ['10.1145/3637528.3671812', '10.1145/3637528.3671808']",
+  "Blanked summary for paper_id: 10.1145/3637528.3671804",
+  "Truncated title for paper_id: 10.1145/3637528.3671807",
+  "Increased age_days by 200 for all records to simulate staleness.",
+  "Added duplicate row for paper_id: 10.1145/3637528.3671804"
+]
