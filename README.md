@@ -1,5 +1,27 @@
 # Day 10 — Data Pipeline & Data Observability for RAG
 
+> **Completed implementation:** See [the evidence report](report/group_report.md) for measured results and remaining team/individual information to fill in. The original lab instructions below are retained for reference.
+
+To reproduce locally in PowerShell without an LLM API key:
+
+```powershell
+uv sync --locked
+.\.venv\Scripts\Activate.ps1
+$env:LLM_PROVIDER = 'mock'
+$env:LLM_MODEL = 'mock'
+$env:REFRESH_SOURCE = 'false'
+$env:REFRESH_TEST_SET = 'false'
+$env:RUN_RAGAS = 'false'
+python script/run_phase1.py
+python script/run_corruption_flow.py
+python -m unittest discover -s tests -v
+python -m compileall src script
+```
+
+The Crossref-format snapshot is included. The real MiniLM model downloads on first use and is cached for subsequent runs. `mock` affects the LLM/judge only. Baseline and repair reject failing quality checks before indexing; the lab deliberately indexes corrupted rows in a separate collection to measure impact. Freshness uses the actual baseline UTC date, which is reused by repair. A later run can correctly report that this fixed snapshot has become stale.
+
+The benchmark is reused byte-for-byte unless `REFRESH_TEST_SET=true` is explicitly set for baseline. Source, clean-data, and benchmark hashes prevent comparing mismatched runs. Generated JSON/Markdown/CSV artifacts and local Chroma collections are under `data/`.
+
 > **Hình thức thực hiện:** Làm việc theo nhóm (Teamwork)  
 > **Thời lượng:** 240 phút (4 giờ)  
 > **Thời hạn nộp bài:** 23:59:59 ngày diễn ra bài lab (hoặc theo thông báo trên LMS)  

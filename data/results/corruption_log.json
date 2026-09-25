@@ -1,0 +1,202 @@
+{
+  "run_date": "2026-09-25",
+  "selection": "published descending, paper_id ascending; fixed positional slices",
+  "input_rows": 24,
+  "output_rows": 21,
+  "scenarios": [
+    {
+      "type": "drop_latest_records",
+      "affected_records": 5,
+      "paper_ids": [
+        "10.1145/3637528.3671812",
+        "10.1145/3637528.3671808",
+        "10.1145/3637528.3671804",
+        "10.1145/3637528.3671807",
+        "10.1145/3637528.3671802"
+      ],
+      "parameters": {
+        "fraction": 0.2
+      },
+      "rows_before": 24,
+      "rows_after": 19
+    },
+    {
+      "type": "blank_summary",
+      "affected_records": 3,
+      "paper_ids": [
+        "10.1145/3637528.3671824",
+        "10.1145/3637528.3671823",
+        "10.1145/3637528.3671822"
+      ],
+      "parameters": {
+        "count": 3
+      },
+      "changes": [
+        {
+          "index": 0,
+          "paper_id": "10.1145/3637528.3671824",
+          "before": "An extended empirical study on tatic benchmarks fail to capture domain drift in enterprise knowledge bases. We establish a synthetic test generator that auto-cr",
+          "after": ""
+        },
+        {
+          "index": 1,
+          "paper_id": "10.1145/3637528.3671823",
+          "before": "An extended empirical study on ense vector search excels at conceptual similarity but struggles with exact acronyms and serial numbers. Reciprocal Rank Fusion o",
+          "after": ""
+        },
+        {
+          "index": 2,
+          "paper_id": "10.1145/3637528.3671822",
+          "before": "An extended empirical study on mbedding quality checks directly into data pipelines enables fail-closed governance. We show how Great Expectations suites catch ",
+          "after": ""
+        }
+      ]
+    },
+    {
+      "type": "inject_noise",
+      "affected_records": 3,
+      "paper_ids": [
+        "10.1145/3637528.3671821",
+        "10.1145/3637528.3671810",
+        "10.1145/3637528.3671820"
+      ],
+      "parameters": {
+        "prefix": "ZXQ_NOISE 0000 @@ BROKEN CONTENT. ",
+        "repetitions": 5
+      },
+      "changes": [
+        {
+          "index": 3,
+          "paper_id": "10.1145/3637528.3671821",
+          "before": "An extended empirical study on ierarchical and semantic boundary chunking preserves code block contexts and markdown headings. Our benchmark demonstrates superi",
+          "after": "ZXQ_NOISE 0000 @@ BROKEN CONTENT. ZXQ_NOISE 0000 @@ BROKEN CONTENT. ZXQ_NOISE 0000 @@ BROKEN CONTENT. ZXQ_NOISE 0000 @@ BROKEN CONTENT. ZXQ_NOISE 0000 @@ BROKEN"
+        },
+        {
+          "index": 4,
+          "paper_id": "10.1145/3637528.3671810",
+          "before": "Embedding quality checks directly into data pipelines enables fail-closed governance. We show how Great Expectations suites catch schema drifts and null fields ",
+          "after": "ZXQ_NOISE 0000 @@ BROKEN CONTENT. ZXQ_NOISE 0000 @@ BROKEN CONTENT. ZXQ_NOISE 0000 @@ BROKEN CONTENT. ZXQ_NOISE 0000 @@ BROKEN CONTENT. ZXQ_NOISE 0000 @@ BROKEN"
+        },
+        {
+          "index": 5,
+          "paper_id": "10.1145/3637528.3671820",
+          "before": "An extended empirical study on single LLM is susceptible to confirmation bias when evaluating retrieved evidence. We demonstrate a multi-agent debate architectu",
+          "after": "ZXQ_NOISE 0000 @@ BROKEN CONTENT. ZXQ_NOISE 0000 @@ BROKEN CONTENT. ZXQ_NOISE 0000 @@ BROKEN CONTENT. ZXQ_NOISE 0000 @@ BROKEN CONTENT. ZXQ_NOISE 0000 @@ BROKEN"
+        }
+      ]
+    },
+    {
+      "type": "truncate_title",
+      "affected_records": 3,
+      "paper_ids": [
+        "10.1145/3637528.3671819",
+        "10.1145/3637528.3671818",
+        "10.1145/3637528.3671817"
+      ],
+      "parameters": {
+        "max_chars": 7
+      },
+      "changes": [
+        {
+          "index": 6,
+          "paper_id": "10.1145/3637528.3671819",
+          "before": "Advanced Perspectives on Synthetic Corruption Testing: Stress-Testing Vector Search Robustness",
+          "after": "Advance"
+        },
+        {
+          "index": 7,
+          "paper_id": "10.1145/3637528.3671818",
+          "before": "Advanced Perspectives on Semantic Layer Integration for Agentic Text-to-SQL Pipelines",
+          "after": "Advance"
+        },
+        {
+          "index": 8,
+          "paper_id": "10.1145/3637528.3671817",
+          "before": "Advanced Perspectives on Evaluating Retrieval Precision with Token F1 and LLM Judges",
+          "after": "Advance"
+        }
+      ]
+    },
+    {
+      "type": "stale_date",
+      "affected_records": 8,
+      "paper_ids": [
+        "10.1145/3637528.3671824",
+        "10.1145/3637528.3671823",
+        "10.1145/3637528.3671822",
+        "10.1145/3637528.3671821",
+        "10.1145/3637528.3671810",
+        "10.1145/3637528.3671820",
+        "10.1145/3637528.3671819",
+        "10.1145/3637528.3671818"
+      ],
+      "parameters": {
+        "shift_days": 365,
+        "fraction": 0.4
+      },
+      "changes": [
+        {
+          "index": 0,
+          "paper_id": "10.1145/3637528.3671824",
+          "before": "2026-06-12",
+          "after": "2025-06-12"
+        },
+        {
+          "index": 1,
+          "paper_id": "10.1145/3637528.3671823",
+          "before": "2026-06-11",
+          "after": "2025-06-11"
+        },
+        {
+          "index": 2,
+          "paper_id": "10.1145/3637528.3671822",
+          "before": "2026-06-10",
+          "after": "2025-06-10"
+        },
+        {
+          "index": 3,
+          "paper_id": "10.1145/3637528.3671821",
+          "before": "2026-06-09",
+          "after": "2025-06-09"
+        },
+        {
+          "index": 4,
+          "paper_id": "10.1145/3637528.3671810",
+          "before": "2026-06-08",
+          "after": "2025-06-08"
+        },
+        {
+          "index": 5,
+          "paper_id": "10.1145/3637528.3671820",
+          "before": "2026-06-08",
+          "after": "2025-06-08"
+        },
+        {
+          "index": 6,
+          "paper_id": "10.1145/3637528.3671819",
+          "before": "2026-06-07",
+          "after": "2025-06-07"
+        },
+        {
+          "index": 7,
+          "paper_id": "10.1145/3637528.3671818",
+          "before": "2026-06-06",
+          "after": "2025-06-06"
+        }
+      ]
+    },
+    {
+      "type": "duplicate_rows",
+      "affected_records": 2,
+      "paper_ids": [
+        "10.1145/3637528.3671803",
+        "10.1145/3637528.3671805"
+      ],
+      "parameters": {
+        "copies_per_row": 1
+      },
+      "rows_before": 19,
+      "rows_after": 21
+    }
+  ]
+}
