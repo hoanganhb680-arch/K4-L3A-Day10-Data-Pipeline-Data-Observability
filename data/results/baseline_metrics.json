@@ -1,0 +1,22 @@
+{
+  "samples": 10,
+  "test_set_sha256": "08ed9447c4687393b2023c0a2ae8ee8f8ed5dbdaeea764706585732e302321f6",
+  "llm_provider": "mock",
+  "llm_model": "mock",
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "collection": "papers-baseline",
+  "top_k": 4,
+  "heuristic_judge_samples": 10,
+  "retrieval_hit_rate": 1.0,
+  "mean_token_f1": 1.0,
+  "judge_accuracy": 1.0,
+  "mean_judge_score": 5,
+  "ragas": {
+    "skipped": "Set RUN_RAGAS=1 to enable the slower Ragas pass."
+  },
+  "quality_status": "PASS",
+  "freshness_status": "PASS",
+  "run_date": "2026-09-25",
+  "raw_records_sha256": "854c984cc75d5ad02e540651ab7f3589131579aad226ce5a71afe2447b95f941",
+  "clean_data_sha256": "eff474f941d85f0f3a9c1b7fd13b3e8eac59293e1f548bea355f63b7eb7c4655"
+}

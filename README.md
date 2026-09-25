@@ -1,5 +1,27 @@
 # Day 10 — Data Pipeline & Data Observability for RAG
 
+> **Completed implementation:** See [the evidence report](report/group_report.md) for measured results and remaining team/individual information to fill in. The original lab instructions below are retained for reference.
+
+To reproduce locally in PowerShell without an LLM API key:
+
+```powershell
+uv sync --locked
+.\.venv\Scripts\Activate.ps1
+$env:LLM_PROVIDER = 'mock'
+$env:LLM_MODEL = 'mock'
+$env:REFRESH_SOURCE = 'false'
+$env:REFRESH_TEST_SET = 'false'
+$env:RUN_RAGAS = 'false'
+python script/run_phase1.py
+python script/run_corruption_flow.py
+python -m unittest discover -s tests -v
+python -m compileall src script
+```
+
+The Crossref-format snapshot is included. The real MiniLM model downloads on first use and is cached for subsequent runs. `mock` affects the LLM/judge only. Baseline and repair reject failing quality checks before indexing; the lab deliberately indexes corrupted rows in a separate collection to measure impact. Freshness uses the actual baseline UTC date, which is reused by repair. A later run can correctly report that this fixed snapshot has become stale.
+
+The benchmark is reused byte-for-byte unless `REFRESH_TEST_SET=true` is explicitly set for baseline. Source, clean-data, and benchmark hashes prevent comparing mismatched runs. Generated JSON/Markdown/CSV artifacts and local Chroma collections are under `data/`.
+
 > **Hình thức thực hiện:** Làm việc theo nhóm (Teamwork)  
 > **Thời lượng:** 240 phút (4 giờ)  
 > **Thời hạn nộp bài:** 23:59:59 ngày diễn ra bài lab (hoặc theo thông báo trên LMS)  
@@ -224,3 +246,30 @@ GOOGLE_API_KEY=your_gemini_api_key_here
   > GitHub chỉ ghi nhận đóng góp khi commit được push trực tiếp vào **nhánh mặc định (`main`)**.  
   > Trước khi nộp bài, mở trình duyệt vào repo nhóm, chọn tab **Insights > Contributors**. Bắt buộc mọi thành viên trong nhóm đều phải xuất hiện trên biểu đồ commit thì mới được tính điểm chuyên cần nhóm!
 - [ ] **Nộp bài lên VLearn LMS:** Mỗi thành viên copy đường link repository GitHub của nhóm và nộp lên cổng LMS trước khi đồng hồ đếm ngược kết thúc 240 phút!
+
+
+---
+
+## Group Submission
+
+Team: Friday-25th
+
+Members:
+- Bùi Hoàng Anh — 2A202602697
+- Tạ Văn Tuấn — 2A202602806
+- Nguyễn Mai Hoàng Thiện — 2A202602912
+
+Run:
+
+```bash
+uv run python script/run_phase1.py
+uv run python script/run_corruption_flow.py
+```
+
+Tests:
+
+```bash
+uv run python -m unittest discover -s tests -v
+```
+
+Recommendation: rename repo to `K4-L3-DAY10-Friday-25th-DataPipeline` before LMS submission.

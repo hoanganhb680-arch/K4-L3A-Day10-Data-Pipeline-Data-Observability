@@ -113,7 +113,7 @@ def load_settings(project_dir: Path | None = None) -> Settings:
     )
 
     return Settings(
-        llm_provider=os.getenv("LLM_PROVIDER", "gemini"),
+        llm_provider=os.getenv("LLM_PROVIDER", "mock"),
         model_name=os.getenv("LLM_MODEL", "gemini-2.5-flash"),
         google_api_key=os.getenv("GOOGLE_API_KEY"),
         openai_api_key=os.getenv("OPENAI_API_KEY"),
@@ -141,6 +141,8 @@ def load_settings(project_dir: Path | None = None) -> Settings:
 
 def normalized_provider(settings: Settings) -> str:
     provider = settings.llm_provider.strip().lower().replace(" ", "").replace("-", "")
+    if provider == "google":
+        return "gemini"
     if provider == "anthorpic":
         return "anthropic"
     if provider == "customllm":

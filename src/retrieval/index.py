@@ -89,15 +89,15 @@ class LocalEmbeddingIndex:
     ) -> "LocalEmbeddingIndex":
         collection_name = cls._derive_collection_name(settings, embeddings_output_path)
         documents = cls._build_documents(df)
+        if not documents:
+            raise ValueError("Cannot build an index without documents.")
         persist_path = settings.paths.chroma_dir
         persist_path.mkdir(parents=True, exist_ok=True)
 
         embedding_model = MiniLMEmbeddings(settings.embedding_model)
         client = chromadb.PersistentClient(path=str(persist_path))
-        try:
+        if collection_name in {collection.name for collection in client.list_collections()}:
             client.delete_collection(name=collection_name)
-        except Exception:
-            pass
         collection = client.create_collection(
             name=collection_name,
             configuration={"hnsw": {"space": "cosine"}},
@@ -116,8 +116,10 @@ class LocalEmbeddingIndex:
             {
                 "backend": "chroma",
                 "embedding_model": settings.embedding_model,
-                "persist_path": str(persist_path),
+                "persist_path": persist_path.relative_to(settings.paths.project_dir).as_posix(),
                 "collection_name": collection_name,
+                "document_count": collection.count(),
+                "embedding_dimensions": len(embeddings[0]),
                 "documents": documents,
             },
         )
@@ -131,18 +133,27 @@ class LocalEmbeddingIndex:
     @classmethod
     def load(cls, settings: Settings, embeddings_path: Path | None = None) -> "LocalEmbeddingIndex":
         payload = read_json(embeddings_path or settings.paths.embeddings_json)
+        persist_path = Path(payload["persist_path"])
+        if not persist_path.is_absolute():
+            persist_path = settings.paths.project_dir / persist_path
         return cls(
             settings=settings,
             collection_name=payload["collection_name"],
             documents=payload["documents"],
-            persist_path=Path(payload["persist_path"]),
+            persist_path=persist_path,
         )
 
     def search(self, query: str, top_k: int | None = None) -> list[SearchResult]:
+        count = self.collection.count()
+        if not count:
+            return []
+        requested = self.settings.top_k if top_k is None else top_k
+        if requested < 1:
+            raise ValueError("top_k must be positive.")
         query_embedding = self.embedding_model.embed_query(query)
         results = self.collection.query(
             query_embeddings=[query_embedding],
-            n_results=top_k or self.settings.top_k,
+            n_results=min(requested, count),
             include=["documents", "metadatas", "distances"],
         )
         ids = results.get("ids", [[]])[0]
