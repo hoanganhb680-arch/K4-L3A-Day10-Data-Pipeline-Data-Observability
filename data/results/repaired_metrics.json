@@ -1,0 +1,17 @@
+{
+  "samples": 10,
+  "test_set_sha256": "08ed9447c4687393b2023c0a2ae8ee8f8ed5dbdaeea764706585732e302321f6",
+  "llm_provider": "mock",
+  "llm_model": "mock",
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "collection": "papers-repaired",
+  "top_k": 4,
+  "heuristic_judge_samples": 10,
+  "retrieval_hit_rate": 1.0,
+  "mean_token_f1": 1.0,
+  "judge_accuracy": 1.0,
+  "mean_judge_score": 5,
+  "ragas": {
+    "skipped": "Set RUN_RAGAS=1 to enable the slower Ragas pass."
+  }
+}

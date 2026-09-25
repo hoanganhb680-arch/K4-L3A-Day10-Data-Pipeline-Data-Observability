@@ -10,8 +10,8 @@ from typing import Any
 from datasets import Dataset
 from pydantic import BaseModel, Field
 
-from core.config import Settings
-from core.utils import normalize_whitespace, read_json, write_json
+from core.config import Settings, normalized_provider
+from core.utils import file_sha256, normalize_whitespace, read_json, write_json
 from retrieval.embeddings import MiniLMEmbeddings
 from retrieval.index import LocalEmbeddingIndex
 from retrieval.llm import build_llm
@@ -46,6 +46,8 @@ def _token_f1(reference: str, prediction: str) -> float:
 
 
 def _judge_answer(settings: Settings, question: str, reference: str, prediction: str) -> JudgeVerdict:
+    if normalized_provider(settings) == "mock":
+        return _heuristic_judge(reference, prediction)
     prompt = f"""
 Evaluate the model answer against the reference answer.
 
@@ -62,12 +64,14 @@ Return:
         llm = build_llm(settings=settings, temperature=0.0).with_structured_output(JudgeVerdict)
         return llm.invoke(prompt)
     except Exception:
-        score = 5 if _token_f1(reference, prediction) >= 0.95 else 3 if _token_f1(reference, prediction) >= 0.5 else 1
-        return JudgeVerdict(
-            score=score,
-            correct=score >= 3,
-            reasoning="Fallback heuristic judge used because the LLM evaluator was unavailable.",
-        )
+        return _heuristic_judge(reference, prediction)
+
+
+def _heuristic_judge(reference: str, prediction: str) -> JudgeVerdict:
+    f1 = _token_f1(reference, prediction)
+    score = 5 if f1 >= 0.95 else 3 if f1 >= 0.5 else 1
+    return JudgeVerdict(score=score, correct=score >= 3,
+                        reasoning="Heuristic token-F1 judge (mock provider or unavailable LLM evaluator).")
 
 
 def _run_ragas(settings: Settings, answers: list[dict[str, Any]]) -> dict[str, Any]:
@@ -108,6 +112,8 @@ def evaluate_pipeline(
     answers_output_path,
 ) -> EvaluationBundle:
     test_set = read_json(test_set_path)
+    if not test_set:
+        raise ValueError("The evaluation set must not be empty.")
     answers: list[dict[str, Any]] = []
 
     for item in test_set:
@@ -132,6 +138,13 @@ def evaluate_pipeline(
 
     summary = {
         "samples": len(answers),
+        "test_set_sha256": file_sha256(test_set_path),
+        "llm_provider": normalized_provider(settings),
+        "llm_model": settings.model_name,
+        "embedding_model": settings.embedding_model,
+        "collection": index.collection_name,
+        "top_k": settings.top_k,
+        "heuristic_judge_samples": sum(item["judge"]["reasoning"].startswith("Heuristic token-F1 judge") for item in answers),
         "retrieval_hit_rate": mean(1.0 if item["retrieval_hit"] else 0.0 for item in answers),
         "mean_token_f1": mean(item["token_f1"] for item in answers),
         "judge_accuracy": mean(1.0 if item["judge"]["correct"] else 0.0 for item in answers),
